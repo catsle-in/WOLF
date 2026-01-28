@@ -1,16 +1,404 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>유튜바 재생 화면</title>
-    <link rel="stylesheet"href="style.css">
+    <title>YouTube - 으아아아악!!</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #0f0f0f;
+            color: white;
+            font-family: Roboto, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            height: 56px;
+            background: #0f0f0f;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+        }
+
+        .search-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #121212;
+            border: 1px solid #333;
+            border-radius: 40px;
+            padding: 0 15px;
+            width: 500px;
+            height: 40px;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+
+
+        .main-container {
+            display: flex;
+            padding: 20px 60px;
+            gap: 24px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+
+
+        .video-section {
+            flex: 7;
+        }
+
+        .player-wrapper {
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+
+        .player-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-current {
+            width: 85%;
+            height: 100%;
+            background: red;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .video-bottom-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .channel-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #555;
+            overflow: hidden;
+        }
+
+        .channel-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sub-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .interaction-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-grey {
+            background: #272727;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+
+        .recommendation-section {
+            flex: 3;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tag {
+            background: #272727;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .tag.active {
+            background: white;
+            color: black;
+        }
+
+        .rec-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .rec-thumb {
+            width: 168px;
+            height: 94px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #333;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .rec-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rec-time {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.8);
+            font-size: 11px;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .rec-text h4 {
+            font-size: 14px;
+            margin: 0 0 5px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .rec-text p {
+            font-size: 12px;
+            color: #aaa;
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
-    <header class="navbar">
-        <div class="logo">유튜브</div>
-        <
+
+    <header class="header">
+        <div class="header-left">
+            <i class="material-icons" style="cursor:pointer;">menu</i>
+            <a href="1.html" class="logo">
+                <i class="material-icons" style="color: red; font-size: 30px;">play_circle_filled</i>
+                <span style="font-weight: bold; font-size: 20px; margin-left: 5px;">YouTube</span>
+            </a>
+        </div>
+        <div class="search-area">
+            <div class="search-bar">
+                <input type="text" placeholder="검색">
+                <i class="material-icons" style="color:#aaa">search</i>
+            </div>
+            <i class="material-icons"
+                style="background: #181818; padding: 8px; border-radius: 50%; cursor:pointer;">mic</i>
+        </div>
+        <div style="display:flex; gap:15px; align-items: center;">
+            <i class="material-icons" style="cursor:pointer;">videocam</i>
+            <i class="material-icons" style="cursor:pointer;">notifications</i>
+            <i class="material-icons" style="cursor:pointer;">account_circle</i>
+        </div>
     </header>
-    
+
+    <div class="main-container">
+        <div class="video-section">
+            <div class="player-wrapper">
+                <img src="https://i.ytimg.com/vi/Nf02NaeeNM4/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBJsr6Cn8azPJjsx2XmasKjvEG7iw"
+                    alt="으아아아악!!!">
+
+                <div class="progress-bar">
+                    <div class="progress-current"></div>
+                </div>
+                <div class="video-controls">
+                    <div style="display:flex; gap:15px; align-items:center;">
+                        <i class="material-icons" style="cursor:pointer;">play_arrow</i>
+                        <i class="material-icons" style="cursor:pointer;">skip_next</i>
+                        <i class="material-icons" style="cursor:pointer;">volume_up</i>
+                        <span style="font-size:12px;">8:24 / 10:54</span>
+                    </div>
+                    <div style="display:flex; gap:15px; align-items:center;">
+                        <i class="material-icons" style="cursor:pointer;">subtitles</i>
+                        <i class="material-icons" style="cursor:pointer;">settings</i>
+                        <i class="material-icons" style="cursor:pointer;">branding_watermark</i>
+                        <i class="material-icons" style="cursor:pointer;">fullscreen</i>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="video-title">일단 마셔봐</h1>
+
+            <div class="video-bottom-info">
+                <div class="channel-info">
+                    <div class="channel-img">
+                        <img src="https://i.ytimg.com/vi/j277mYomR_I/oardefault.jpg?sqp=-oaymwEoCJUDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLA6MFhdFFGNAN79vAUM2JEDSHa1vg"
+                            alt="channel">
+                    </div>
+                    <div>
+                        <div style="font-weight: bold;">와나나 <i class="material-icons"
+                                style="font-size:14px; vertical-align:middle; color:#aaa;">check_circle</i></div>
+                        <div style="font-size: 12px; color: #aaa;">구독자 189만명</div>
+                    </div>
+                    <button class="sub-btn" style="margin-left:15px;">구독</button>
+                </div>
+                <div class="interaction-buttons">
+                    <div class="btn-grey"><i class="material-icons">thumb_up</i> 3.5만 | <i
+                            class="material-icons">thumb_down</i></div>
+                    <div class="btn-grey"><i class="material-icons">share</i> 공유</div>
+                    <div class="btn-grey"><i class="material-icons">download</i> 오프라인 저장</div>
+                    <div class="btn-grey"><i class="material-icons">more_horiz</i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendation-section">
+            <div class="filter-tags">
+                <div class="tag active">모두</div>
+                <div class="tag">행복해보이는 코기</div>
+                <div class="tag">게임</div>
+                <div class="tag">관련 콘텐츠</div>
+            </div>
+
+            <a href="#" class="rec-item">
+                <div class="rec-thumb">
+                    <img
+                        src="https://i.namu.wiki/i/ds4ZSTgQhBQLABQfR1ECjk2QKOZ2UJTIN9XQTgd3HhJ7cIbKTOvZpw53F6KnLCK3EVBWAV83XLPtx4-eyV2QaQ.webp">
+                    <span class="rec-time">10:24</span>
+                </div>
+                <div class="rec-text">
+                    <h4>으아아아악</h4>
+                    <p>으아아아아아아악</p>
+                    <p>조회수 20만회 • 1시간 전</p>
+                </div>
+            </a>
+
+            <a href="#" class="rec-item">
+                <div class="rec-thumb">
+                    <img
+                        src="https://i.ytimg.com/vi/O_xFxq0cDSQ/hq720.jpg?sqp=-oaymwFBCNAFEJQDSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLBt0eqEJ8PffbLyt4ogdTBkZf6iSA">
+                    <span class="rec-time">18:18</span>
+                </div>
+                <div class="rec-text">
+                    <h4>99강 하드 모드... 이게 가능함?</h4>
+                    <p>니얼굴</p>
+                    <p>조회수 28만회 • 2일 전</p>
+                </div>
+            </a>
+
+            <a href="#" class="rec-item">
+                <div class="rec-thumb">
+                    <img src="https://i.ytimg.com/vi/JBZDzIKIypQ/hqdefault.jpg">
+                    <span class="rec-time">21:38</span>
+                </div>
+                <div class="rec-text">
+                    <h4>어디까지 가는거야? 마인크래프트...</h4>
+                    <p>니얼굴의 아들</p>
+                    <p>조회수 30만회 • 1년 전</p>
+                </div>
+            </a>
+
+            <a href="#" class="rec-item">
+                <div class="rec-thumb">
+                    <img src="https://i.ytimg.com/vi/j277mYomR_I/hqdefault.jpg">
+                    <span class="rec-time">13:59</span>
+                </div>
+                <div class="rec-text">
+                    <h4>결국 그 후임은... (실제 상황)</h4>
+                    <p>와나나</p>
+                    <p>조회수 180만회 • 1년 전</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
 </body>
+
 </html>

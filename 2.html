@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Shorts Player</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body { margin: 0; background-color: #000; color: white; font-family: sans-serif; overflow: hidden; }
+        
+        .shorts-wrapper {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .shorts-wrapper::-webkit-scrollbar { display: none; }
+
+        .short-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .video-box {
+            width: 380px;
+            height: 90vh;
+            background: #222;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .video-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .info-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            box-sizing: border-box;
+        }
+
+        .side-bar {
+            position: absolute; right: 20px; bottom: 40px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .icon-btn { text-align: center; cursor: pointer; }
+        .icon-btn i { background: #272727; padding: 12px; border-radius: 50%; font-size: 24px; }
+        .icon-btn span { font-size: 12px; display: block; margin-top: 5px; }
+
+        .back-btn { position: fixed; top: 20px; left: 20px; z-index: 100; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <i class="material-icons back-btn" onclick="location.href='index.html'">arrow_back</i>
+
+    <div class="shorts-wrapper">
+        <div id="v0" class="short-section">
+            <div class="video-box">
+                <img src="https://i.ytimg.com/vi/j277mYomR_I/oardefault.jpg">
+                <div class="info-overlay"><b>@humorsnack</b><br>결국 그 후임은...</div>
+            </div>
+            <div class="side-bar">
+                <div class="icon-btn"><i class="material-icons">thumb_up</i><span>11만</span></div>
+                <div class="icon-btn"><i class="material-icons">comment</i><span>1,483</span></div>
+            </div>
+        </div>
+
+        <div id="v1" class="short-section">
+            <div class="video-box">
+                <img src="https://i.ytimg.com/vi/JBZDzIKIypQ/oardefault.jpg">
+                <div class="info-overlay"><b>@minecraft</b><br>마크 창의 굴욕</div>
+            </div>
+            <div class="side-bar">
+                <div class="icon-btn"><i class="material-icons">thumb_up</i><span>5만</span></div>
+                <div class="icon-btn"><i class="material-icons">comment</i><span>500</span></div>
+            </div>
+        </div>
+
+        <div id="v2" class="short-section">
+            <div class="video-box">
+                <img src="https://i.ytimg.com/vi/rQmk8-jkxPk/oardefault.jpg">
+                <div class="info-overlay"><b>@food_review</b><br>메롱바 여러맛 리뷰</div>
+            </div>
+            <div class="side-bar">
+                <div class="icon-btn"><i class="material-icons">thumb_up</i><span>8만</span></div>
+                <div class="icon-btn"><i class="material-icons">comment</i><span>2k</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target) {
+                    target.scrollIntoView();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
